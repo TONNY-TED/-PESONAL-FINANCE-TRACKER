@@ -1,0 +1,70 @@
+"""#AUTHOR TONNY CHIBAMBO
+PERSONAL FINACIAL TRACKER APPLICATION
+
+A simple Python application that helps you track your income and expenses using
+a graphical user interface (GUI). Built with Tkinter and CSV for data storage,
+this app allows you to perform basic CRUD operations on your personal financial transactions."""
+
+import tkinter as tk
+from tkinter import ttk, messagebox
+from datetime import datetime
+from tkcalendar import DateEntry
+import csv
+"""THIS Have  a GUI IMPLIMENTED  by tkinter 
+use calendar inputs and stores and retrieves data t stored in csv files """
+##############################################FIRST CLASS############################################################
+"""Main class of the application.
+Inherits from tk.Tk, so it builds the main window of the application using Tkinter.
+It sets up:
+Window title, size, and style
+All the GUI widgets like Labels, Entry fields, Buttons, Treeview (transaction table), and Summary Labels
+Also connects all button clicks to their respective functions """
+
+class FinanceTrackerApp:
+    def __init__(self, root):#cinstructor
+        self.root = root
+        self.setup_app()
+        self.setup_csv_file()
+        self.setup_styles()
+        self.create_widgets()
+        self.load_data()
+
+
+    def setup_app(self):
+        self.root.title("PROP INDUSTRIES | Personal Finance Tracker ")
+        self.root.geometry("1000x800")
+        self.root.minsize(800, 600)
+
+        #############3Configure grid weights for root window
+        self.root.grid_rowconfigure(0, weight=1)
+        self.root.grid_columnconfigure(0, weight=1)
+
+    def setup_csv_file(self):
+        self.filename = 'finance.csv'
+        # Check if file exists, if not create it with a header
+        try:
+            with open(self.filename, 'r') as f:
+                pass
+        except FileNotFoundError:
+            with open(self.filename, 'w', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow(["id", "amount", "category", "date", "type", "description"])
+
+    def setup_styles(self):
+        self.style = ttk.Style()
+        self.style.theme_use('clam')
+
+        # Color scheme
+        # Custom color scheme with red, black, white, and blue
+        self.colors = {
+           'primary': '#4B0082',  # Indigo for main elements
+            'secondary': '#6A5ACD',  # Slate blue for secondary elements
+            'accent': '#9370DB',  # Medium purple for accents
+            'success': '#32CD32',  # Lime green for positive amounts
+            'danger': '#FF4500',  # Orange-red for negative amounts/errors
+            'light': '#F8F0FF',  # Very light purple background
+            'dark': '#483D8B',  # Dark slate blue for dark elements
+            'text': '#2F2F2F',  # Dark gray text
+            'highlight': '#FF69B4'  # Hot pink for highlights
+
+        }
